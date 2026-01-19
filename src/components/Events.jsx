@@ -2,7 +2,9 @@ import { useRouter } from "next/navigation";
 import { PinContainer } from "@/components/ui/3d-pin";
 import { useSectionObserver } from "@/hooks/intersection-observer";
 import SectionHeading from "./ui/section-heading";
-import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 // Define event data outside the component to avoid recreating on each render
 const eventItems = [
@@ -38,50 +40,56 @@ const eventItems = [
 export default function Events() {
   const router = useRouter();
   useSectionObserver("events", "Events");
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   const navigateToEvent = (eventId) => {
     router.push(`/events/${eventId}`);
   };
 
-  // Shared motion props for event cards
-  const motionProps = {
-    whileHover: { scale: 1.05, transition: { duration: 0.3 } },
-    whileTap: { scale: 0.95 },
-  };
-
   return (
     <section id="events" className="relative h-full w-full py-20 md:py-24">
-      <div className="bg-[#dbd7fb] absolute top-[-1rem] -z-10 left-[-35rem] h-[31.25rem] w-[50rem] rounded-full blur-[10rem] sm:w-[68.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] dark:bg-[#595584] "></div>
+      <div className="bg-[#dbd7fb] absolute top-[-1rem] -z-10 left-[-35rem] h-[31.25rem] w-[50rem] rounded-full blur-[10rem] sm:w-[68.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] dark:bg-[#595584]"></div>
       <SectionHeading> Events </SectionHeading>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-12 place-items-center py-20">
-          {eventItems.map((item) => (
-            <motion.div
+        <div 
+          ref={ref}
+          className={cn(
+            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-12 place-items-center py-20 stagger-children"
+          )}
+        >
+          {eventItems.map((item, index) => (
+            <div
               key={item.id}
               onClick={() => navigateToEvent(item.id)}
-              {...motionProps}
-              className="cursor-pointer"
+              className={cn(
+                "cursor-pointer hover-scale animate-fade-up",
+                isVisible && "is-visible"
+              )}
+              style={{ transitionDelay: `${index * 100}ms` }}
             >
               <PinContainer title={item.route}>
                 <div className="flex flex-col p-6 bg-gray-50 dark:bg-gray-900 shadow-xl rounded-lg transition-all w-[21rem] h-[21rem] space-y-4 font-serif">
                   <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
                     {item.title}
                   </h3>
-                  <p className=" text-slate-500 dark:text-gray-400 text-sm">
+                  <p className="text-slate-500 dark:text-gray-400 text-sm">
                     {item.description}
                   </p>
                   <div
                     className={`flex-1 w-full rounded-lg overflow-hidden ${item.gradient}`}
                   >
-                    <img
+                    <Image
                       src={item.imageSrc}
-                      alt="Event Banner"
+                      alt={`${item.title} Banner`}
+                      width={336}
+                      height={200}
                       className="object-cover w-full h-full"
+                      loading="lazy"
                     />
                   </div>
                 </div>
               </PinContainer>
-            </motion.div>
+            </div>
           ))}
         </div>
         <div
@@ -93,7 +101,7 @@ export default function Events() {
                text-white bg-gradient-to-r from-blue-500 to-teal-400 
                rounded-full shadow-lg 
                hover:from-teal-400 hover:to-blue-500 
-               transition-all transform hover:scale-105 
+               transition-all hover-scale 
                dark:from-teal-400 dark:to-blue-500 
                dark:hover:from-blue-500 dark:hover:to-teal-400"
             style={{ borderRadius: "3rem" }}

@@ -1,5 +1,6 @@
 import { useSectionObserver } from "@/hooks/intersection-observer";
-import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { cn } from "@/lib/utils";
 
 const guidelines = [
   "Students must bring their respective college ID card.",
@@ -43,18 +44,15 @@ export default function GeneralRules() {
         </header>
 
         {/* Guidelines Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-lg border border-gray-200 dark:border-gray-700 mb-12 font-serif"
+        <div
+          className="backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-lg border border-gray-200 dark:border-gray-700 mb-12 font-serif animate-fade-up is-visible"
         >
           <ul className="list-disc pl-6 space-y-2 text-gray-900 dark:text-gray-100 text-lg">
             {guidelines.map((rule, i) => (
               <li key={i}>{rule}</li>
             ))}
           </ul>
-        </motion.div>
+        </div>
 
         {/* Timeline */}
         <div className="text-center mb-12">

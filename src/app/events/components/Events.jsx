@@ -1,16 +1,9 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion"; // For animations
 import { PinContainer } from "@/components/ui/3d-pin";
 import { useSectionObserver } from "@/hooks/intersection-observer";
 import SectionHeading from "@/components/ui/section-heading";
-
-// Shared hover/tap properties for all event cards
-const hoverProps = {
-  whileHover: { scale: 1.05, transition: { duration: 0.3 } },
-  whileTap: { scale: 0.95 },
-};
 
 // Technical Events Data
 const technicalEvents = [
@@ -98,11 +91,10 @@ export default function Events() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 lg:gap-16 place-items-center py-12 mb-12">
           {technicalEvents.map((event) => (
-            <motion.div
+            <div
               key={event.id}
               onClick={() => navigateToEvent(event.id)}
-              {...hoverProps}
-              className="cursor-pointer"
+              className="cursor-pointer hover-scale animate-fade-up is-visible"
             >
               <PinContainer title={event.route}>
                 <div className="flex flex-col p-6 bg-gray-50 dark:bg-gray-900 shadow-xl rounded-lg transition-all w-[21rem] h-[21rem] space-y-4">
@@ -123,7 +115,7 @@ export default function Events() {
                   </div>
                 </div>
               </PinContainer>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -132,11 +124,10 @@ export default function Events() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 lg:gap-16 place-items-center py-12">
             {nonTechnicalEvents.map((event) => (
-              <motion.div
+              <div
                 key={event.id}
                 onClick={() => navigateToEvent(event.id)}
-                {...hoverProps}
-                className="cursor-pointer"
+                className="cursor-pointer hover-scale animate-fade-up is-visible"
               >
                 <PinContainer title={event.route}>
                   <div className="flex flex-col p-6 bg-gray-50 dark:bg-gray-900 shadow-xl rounded-lg transition-all w-[21rem] h-[21rem] space-y-4">
@@ -157,7 +148,7 @@ export default function Events() {
                     </div>
                   </div>
                 </PinContainer>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

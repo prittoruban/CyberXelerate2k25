@@ -1,10 +1,11 @@
 import { useSectionObserver } from "@/hooks/intersection-observer";
-// Removed unused import: SectionHeading
-import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { LampContainer } from "@/components/ui/lamp";
+import { cn } from "@/lib/utils";
 
 export default function About() {
   useSectionObserver("about", "CyberXelerate-2k25");
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
 
   const features = [
     {
@@ -32,31 +33,34 @@ export default function About() {
   return (
     <section id="about" className="relative py-8 bg-transparent mt-40 sm:mt-0">
       <LampContainer>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8"
+        <div
+          ref={ref}
+          className={cn(
+            "text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8",
+            "animate-fade-up",
+            isVisible && "is-visible"
+          )}
         >
           {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0.5, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6, ease: "easeInOut" }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl md:text-6xl tracking-tight text-gray-800 dark:text-gray-100 font-medium"
+          <h1
+            className={cn(
+              "text-3xl sm:text-4xl md:text-6xl tracking-tight text-gray-800 dark:text-gray-100 font-medium",
+              "animate-fade-up",
+              isVisible && "is-visible"
+            )}
+            style={{ transitionDelay: "100ms" }}
           >
             Ignite Your Cybersecurity Passion
-          </motion.h1>
+          </h1>
 
           {/* Intro Paragraph */}
-          <motion.p
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300 font-serif"
+          <p
+            className={cn(
+              "text-base sm:text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300 font-serif",
+              "animate-scale-in",
+              isVisible && "is-visible"
+            )}
+            style={{ transitionDelay: "200ms" }}
           >
             Join us for the{" "}
             <span className="font-bold text-gray-900 dark:text-white">
@@ -76,19 +80,25 @@ export default function About() {
               cybersecurity
             </span>
             .
-          </motion.p>
+          </p>
 
           {/* Features */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="mt-8"
+          <div
+            className={cn(
+              "mt-8 animate-slide-left",
+              isVisible && "is-visible"
+            )}
+            style={{ transitionDelay: "300ms" }}
           >
-            <ul className="space-y-4 md:space-y-3">
+            <ul className="space-y-4 md:space-y-3 stagger-children">
               {features.map((item, index) => (
-                <li key={index} className="flex items-start gap-2 sm:gap-4">
+                <li 
+                  key={index} 
+                  className={cn(
+                    "flex items-start gap-2 sm:gap-4 animate-fade-up",
+                    isVisible && "is-visible"
+                  )}
+                >
                   <span
                     className="text-blue-500 dark:text-teal-300 font-semibold"
                     aria-hidden="true"
@@ -104,15 +114,15 @@ export default function About() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
           {/* Event Details */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="mt-12 font-serif"
+          <div
+            className={cn(
+              "mt-12 font-serif animate-scale-in",
+              isVisible && "is-visible"
+            )}
+            style={{ transitionDelay: "400ms" }}
           >
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-teal-500 dark:text-teal-300">
               Event Details
@@ -122,33 +132,33 @@ export default function About() {
               <span className="font-bold text-gray-900 dark:text-white font-serif">
                 Date
               </span>
-              : March 17, 2025 <br />
+              : February 9, 2026 <br />
               📍{" "}
               <span className="font-bold text-gray-900 dark:text-white font-serif">
                 Location
               </span>
               : R.M.K College of Engineering and Technology, Tamil Nadu
             </p>
-          </motion.div>
+          </div>
 
           {/* Register Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="mt-8"
+          <div
+            className={cn(
+              "mt-8 animate-fade-up",
+              isVisible && "is-visible"
+            )}
+            style={{ transitionDelay: "500ms" }}
           >
             <a
               href="/transport-details.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-md font-semibold text-white bg-gradient-to-r from-blue-500 to-teal-400 rounded-lg shadow-lg hover:from-teal-400 hover:to-blue-500 transition-all dark:from-teal-400 dark:to-blue-500 dark:hover:from-blue-500 dark:hover:to-teal-400 font-serif"
+              className="inline-block px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-md font-semibold text-white bg-gradient-to-r from-blue-500 to-teal-400 rounded-lg shadow-lg hover:from-teal-400 hover:to-blue-500 transition-all hover-scale dark:from-teal-400 dark:to-blue-500 dark:hover:from-blue-500 dark:hover:to-teal-400 font-serif"
             >
               Transport Details
             </a>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </LampContainer>
     </section>
   );

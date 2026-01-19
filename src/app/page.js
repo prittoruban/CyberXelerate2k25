@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import About from "@/components/About";
 import { ContainerScrollAnimation } from "@/components/ContainerScrollAnimation";
 import Events from "@/components/Events";
@@ -27,6 +26,7 @@ const greetings = [
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentGreeting, setCurrentGreeting] = useState(0);
+  const [showContent, setShowContent] = useState(true);
 
   useEffect(() => {
     const lastVisit = localStorage.getItem("lastVisit");
@@ -34,6 +34,7 @@ export default function Home() {
 
     if (!lastVisit || now - parseInt(lastVisit, 10) > 3 * 60 * 60 * 1000) {
       setIsLoading(true);
+      setShowContent(false);
       localStorage.setItem("lastVisit", now.toString());
     }
   }, []);
@@ -47,6 +48,7 @@ export default function Home() {
 
     const timeout = setTimeout(() => {
       setIsLoading(false);
+      setShowContent(true);
     }, 4000);
 
     return () => {
@@ -57,41 +59,35 @@ export default function Home() {
 
   return (
     <>
-      <AnimatePresence>
-        {isLoading ? (
-          <motion.div
-            key="loading-screen"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 flex items-center justify-center z-50 bg-gray-700 bg-opacity-50 backdrop-blur-lg"
-            aria-hidden="true"
+      {/* Loading Screen */}
+      {isLoading && (
+        <div
+          className="loading-screen fixed inset-0 flex items-center justify-center z-50 bg-gray-700 bg-opacity-50 backdrop-blur-lg"
+          aria-hidden="true"
+        >
+          <div
+            key={greetings[currentGreeting].language}
+            className={`loading-text text-3xl font-bold ${greetings[currentGreeting].color}`}
           >
-            <motion.div
-              key={greetings[currentGreeting].language}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.5 }}
-              className={`text-3xl font-bold ${greetings[currentGreeting].color}`}
-            >
-              {greetings[currentGreeting].language}
-            </motion.div>
-          </motion.div>
-        ) : (
-          <main className="flex flex-col items-center px-4 overflow-hidden">
-            <Header />
-            <ContainerScrollAnimation />
-            <SectionDivider />
-            <About />
-            <Events />
-            <GeneralRules />
-            <SectionDivider />
-            <Contact />
-            <Footer />
-          </main>
-        )}
-      </AnimatePresence>
+            {greetings[currentGreeting].language}
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      {showContent && (
+        <main className="flex flex-col items-center px-4 overflow-hidden">
+          <Header />
+          <ContainerScrollAnimation />
+          <SectionDivider />
+          <About />
+          <Events />
+          <GeneralRules />
+          <SectionDivider />
+          <Contact />
+          <Footer />
+        </main>
+      )}
     </>
   );
 }

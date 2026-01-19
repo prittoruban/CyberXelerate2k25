@@ -1,9 +1,12 @@
 "use client";
-import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const TechMemeAThon = () => {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 });
   return (
-    <section className="relative w-full py-20 md:py-40 backdrop-blur-sm">
+    <section ref={ref} className="relative w-full py-20 md:py-40 backdrop-blur-sm">
       <div className="relative bg-gradient-to-br">
         {/* Background Glow */}
         <div className="bg-[#dbd7fb] absolute top-[-1rem] -z-10 left-[-35rem] h-[31.25rem] w-[50rem] rounded-full blur-[10rem] sm:w-[68.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] dark:bg-[#595584]"></div>
@@ -11,58 +14,57 @@ const TechMemeAThon = () => {
         <div className="max-w-7xl mx-auto px-4">
           {/* Top Section: Welcome & Description */}
           <div className="text-center py-8">
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4"
+            <h1
+              className={cn(
+                "text-4xl sm:text-5xl md:text-6xl font-bold mb-4 animate-fade-up",
+                isVisible && "is-visible"
+              )}
             >
               Welcome to{" "}
               <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
                 Tech Meme-A-Thon
               </span>
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-4 font-mono"
+            </h1>
+            <p
+              className={cn(
+                "text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-4 font-mono animate-fade-up",
+                isVisible && "is-visible"
+              )}
+              style={{ transitionDelay: "200ms" }}
             >
               Welcome to Tech Meme-A-Thon, where humor meets technology! Ever
-              laughed at a tech meme and thought, “I could do better”? Now's
+              laughed at a tech meme and thought, "I could do better"? Now's
               your chance! Participants will be given technical topics on the
               spot and must create memes that simplify them in a relatable way.
               Once done, you'll explain your meme and show how it turns a tricky
               concept into something anyone can grasp.
-            </motion.p>
+            </p>
           </div>
 
           {/* Middle Section: Poster & Rules & Guidelines */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start py-8">
             {/* Event Poster */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="flex justify-center"
+            <div
+              className={cn(
+                "flex justify-center animate-slide-left",
+                isVisible && "is-visible"
+              )}
             >
-              <img
-                src="/memeathon-poster.png" // Replace with your actual poster path
+              <Image
+                src="/memeathon-poster.png"
                 alt="Tech Meme-A-Thon Poster"
+                width={400}
+                height={500}
                 className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-md object-cover rounded-2xl shadow-lg dark:shadow-black/50"
               />
-            </motion.div>
+            </div>
 
             {/* Rules & Guidelines */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="p-5 md:p-10 rounded-2xl shadow-lg dark:shadow-black/50 bg-white/30 dark:bg-black/30 backdrop-blur-md border border-gray-200/50 dark:border-gray-800/50 font-mono"
+            <div
+              className={cn(
+                "p-5 md:p-10 rounded-2xl shadow-lg dark:shadow-black/50 bg-white/30 dark:bg-black/30 backdrop-blur-md border border-gray-200/50 dark:border-gray-800/50 font-mono animate-slide-right",
+                isVisible && "is-visible"
+              )}
             >
               <h2 className="text-2xl font-bold underline text-gray-800 dark:text-gray-200 mb-4">
                 Rules &amp; Guidelines
@@ -115,7 +117,7 @@ const TechMemeAThon = () => {
                   cash prizes!
                 </li>
               </ul>
-            </motion.div>
+            </div>
           </div>
 
           {/* Contact Details
@@ -151,18 +153,18 @@ const TechMemeAThon = () => {
 
           {/* Register Now Button */}
           <div className="flex justify-center py-4">
-            <motion.a
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
+            <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSe-b8qsN3wjS3iXM4QUme-iqMF4mjcJhnTO-aedSSKZ2_CcRg/viewform"
               target="_blank"
               rel="noreferrer noopener"
-              className="px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-teal-400 rounded-lg shadow-lg"
+              className={cn(
+                "px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-teal-400 rounded-lg shadow-lg hover-scale animate-fade-up",
+                isVisible && "is-visible"
+              )}
+              style={{ transitionDelay: "400ms" }}
             >
               Register Now
-            </motion.a>
+            </a>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
+"use client";
+
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -16,27 +17,18 @@ export const HoverEffect = ({ items, className }) => {
       {items.map((item, idx) => (
         <div
           key={idx}
-          className="relative group block p-2 h-full w-full"
+          className="card-hover-item relative group block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
-          <AnimatePresence>
-            {hoveredIndex === idx && (
-              <motion.span
-                className="absolute inset-0 h-full w-full bg-neutral-200/80 dark:bg-slate-800/80 block rounded-3xl"
-                layoutId="hoverBackground"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  transition: { duration: 0.15 },
-                }}
-                exit={{
-                  opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 },
-                }}
-              />
+          {/* Hover background - CSS only */}
+          <span
+            className={cn(
+              "card-hover-bg",
+              hoveredIndex === idx && "opacity-100"
             )}
-          </AnimatePresence>
+          />
+          
           {item.link ? (
             <Link href={item.link} target="_blank" className="block h-full w-full">
               <HoverCard item={item} />
@@ -73,7 +65,7 @@ export const Card = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "dark:bg-gray-900 bg-gray-50 rounded-2xl h-full w-full p-4 overflow-hidden border dark:border-white/[0.2] border-black/[0.1] group-hover:border-slate-700 relative",
+        "dark:bg-gray-900 bg-gray-50 rounded-2xl h-full w-full p-4 overflow-hidden border dark:border-white/[0.2] border-black/[0.1] group-hover:border-slate-700 relative z-10 transition-colors duration-200",
         className
       )}
     >

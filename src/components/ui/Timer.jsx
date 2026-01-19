@@ -1,7 +1,11 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Countdown = ({ eventDate }) => {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+  
   const calculateTimeLeft = () => {
     const difference = +new Date(eventDate) - +new Date();
     let timeLeft = {};
@@ -28,59 +32,31 @@ const Countdown = ({ eventDate }) => {
     return () => clearInterval(timer);
   }, [eventDate]);
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-  };
+  const timeUnits = [
+    { value: time.days, label: "days", color: "text-blue-600 dark:text-blue-500" },
+    { value: time.hours, label: "hours", color: "text-green-500 dark:text-green-500" },
+    { value: time.minutes, label: "min", color: "text-indigo-400 dark:text-indigo-500" },
+    { value: time.seconds, label: "sec", color: "text-red-700 dark:text-indigo-400" },
+  ];
 
   return (
-    <motion.div
-      className="flex gap-5 p-5 rounded-lg bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-700"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
+    <div
+      ref={ref}
+      className={`flex flex-wrap justify-center gap-5 p-5 rounded-lg bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-700 animate-fade-up ${isVisible ? "is-visible" : ""}`}
     >
-      <motion.div
-        className="text-center"
-        whileHover={{ scale: 1.1, rotate: 3 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <span className="countdown font-mono text-4xl text-blue-600 dark:text-blue-500">
-          <span>{time.days}</span>
-        </span>
-        <div className="text-gray-600 dark:text-gray-400">days</div>
-      </motion.div>
-      <motion.div
-        className="text-center"
-        whileHover={{ scale: 1.1, rotate: -3 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <span className="countdown font-mono text-4xl text-green-500 dark:text-green-500">
-          <span>{time.hours}</span>
-        </span>
-        <div className="text-gray-600 dark:text-gray-400">hours</div>
-      </motion.div>
-      <motion.div
-        className="text-center"
-        whileHover={{ scale: 1.1, rotate: 3 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <span className="countdown font-mono text-4xl text-indigo-400 dark:text-indigo-500">
-          <span>{time.minutes}</span>
-        </span>
-        <div className="text-gray-600 dark:text-gray-400">min</div>
-      </motion.div>
-      <motion.div
-        className="text-center"
-        whileHover={{ scale: 1.1, rotate: -3 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <span className="countdown font-mono text-4xl text-red-700 dark:text-indigo-400">
-          <span>{time.seconds}</span>
-        </span>
-        <div className="text-gray-600 dark:text-gray-400">sec</div>
-      </motion.div>
-    </motion.div>
+      {timeUnits.map((unit, index) => (
+        <div
+          key={unit.label}
+          className="timer-unit text-center cursor-default"
+          style={{ transitionDelay: `${index * 50}ms` }}
+        >
+          <span className={`countdown font-mono text-4xl ${unit.color}`}>
+            <span>{unit.value ?? 0}</span>
+          </span>
+          <div className="text-gray-600 dark:text-gray-400">{unit.label}</div>
+        </div>
+      ))}
+    </div>
   );
 };
 
