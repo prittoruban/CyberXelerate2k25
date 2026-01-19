@@ -25,39 +25,39 @@ const greetings = [
 ];
 
 export default function Home() {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [currentGreeting, setCurrentGreeting] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentGreeting, setCurrentGreeting] = useState(0);
 
-  // useEffect(() => {
-  //   const lastVisit = localStorage.getItem("lastVisit");
-  //   const now = Date.now();
+  useEffect(() => {
+    const lastVisit = localStorage.getItem("lastVisit");
+    const now = Date.now();
 
-  //   if (!lastVisit || now - parseInt(lastVisit, 10) > 3 * 60 * 60 * 1000) {
-  //     setIsLoading(true);
-  //     localStorage.setItem("lastVisit", now.toString());
-  //   }
-  // }, []);
+    if (!lastVisit || now - parseInt(lastVisit, 10) > 3 * 60 * 60 * 1000) {
+      setIsLoading(true);
+      localStorage.setItem("lastVisit", now.toString());
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   if (!isLoading) return;
+  useEffect(() => {
+    if (!isLoading) return;
 
-  //   const interval = setInterval(() => {
-  //     setCurrentGreeting((prev) => (prev + 1) % greetings.length);
-  //   }, 400);
+    const interval = setInterval(() => {
+      setCurrentGreeting((prev) => (prev + 1) % greetings.length);
+    }, 400);
 
-  //   const timeout = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 4000);
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
 
-  //   return () => {
-  //     clearInterval(interval);
-  //     clearTimeout(timeout);
-  //   };
-  // }, [isLoading]);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [isLoading]);
 
   return (
     <>
-      {/* <AnimatePresence>
+      <AnimatePresence>
         {isLoading ? (
           <motion.div
             key="loading-screen"
@@ -78,7 +78,7 @@ export default function Home() {
               {greetings[currentGreeting].language}
             </motion.div>
           </motion.div>
-        ) : ( */}
+        ) : (
           <main className="flex flex-col items-center px-4 overflow-hidden">
             <Header />
             <ContainerScrollAnimation />
@@ -90,8 +90,8 @@ export default function Home() {
             <Contact />
             <Footer />
           </main>
-        {/* )}
-      </AnimatePresence> */}
+        )}
+      </AnimatePresence>
     </>
   );
 }

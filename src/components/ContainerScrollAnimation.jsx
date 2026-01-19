@@ -20,7 +20,7 @@ export function ContainerScrollAnimation() {
                 <span className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-indigo-400 via-green-500 to-blue-600 text-transparent bg-clip-text">
                   X
                 </span>
-                elerate 2.0
+                elerate 3.0
               </span>
             </h1>
             <p className="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-6 font-serif">
@@ -46,7 +46,7 @@ export function ContainerScrollAnimation() {
       >
         <div className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 mb-2 mt-2">
           <div className="flex flex-col items-center justify-center space-y-6 sm:space-y-8 mr-2 ml-2">
-            <Countdown eventDate="March 17, 2025 08:30:00" />
+            <Countdown eventDate="Feburary 9, 2026 08:30:00" />
             <Image
               src="/kali.png"
               alt="hero"
